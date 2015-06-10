@@ -216,10 +216,32 @@ $(document).ready(function(){
  					
 };
  	$('#submitAnswer').on('click',function(){
+ 		automatedMove[automatedMove.length] = "";
 	  		 $.ajax({url:"config/insertAnswer.php",data:{QuestionId:questionId,UserMove:userMove,AdminMove:automatedMove,AnswerId:answerId}})
 	  		 .done(function(data){
-	  		 	answerId = answerId + 1;	
+	  		 	answerId = answerId + 1;
+	  		 	$('#dialogBox').dialog({
+	  		 		title:"More Answers?",      
+	      					modal: true,
+							useCss: true,
+						buttons: { "Ok": {  text: 'Yes', 
+                               class: 'btn primary', 
+                               click: function () {
+									window.location = "next.php?questionId="+questionId;
+                                }
+                                },
+                                "Cancel": {  
+                                	text: 'No', 
+                               class: 'btn primary', 
+                               click: function () {
+										window.location = "";
+                                 }
+							}
+                   
+                  }
 	  		 });
+	  		 
+	  		 $('#dialog').dialog("open");
 	  	});
 });
-	
+});	

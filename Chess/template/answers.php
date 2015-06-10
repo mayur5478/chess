@@ -12,6 +12,5 @@
 	<div id="sliderDiv"></div>
 </div>
 <label id="movePanelLabel"><b>Move Panel</b></label>
-
 <div id="movePanel" >
 </div>
