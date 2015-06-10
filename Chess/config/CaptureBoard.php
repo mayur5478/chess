@@ -10,7 +10,6 @@ $query = "select id from puzzle_question where id in(select max(id) from puzzle_
 $r1 = mysqli_query($dbc,$query);
 while($row = mysqli_fetch_array($r1)){
 	echo $row[0]; 
-} 
-
+}
 $dbc.exit;
 ?>
