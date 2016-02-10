@@ -1,11 +1,15 @@
 $(document).ready(function(){
 					var userMove = [],
 						automatedMove = [],
-						answerId = 1,
+						answerId =  parseInt(location.search.split('&&subChapter=')[0].split('&&chapterName=')[0].split('&&levelName=')[0].split('&&problemName=')[0].split('answerId=')[1]) ||1,
 						that = this,
- 						questionId = parseInt(location.search.split('questionId=')[1]||''.split('&')[0] );
+ 						level = location.search.split('&&subChapter=')[0].split('&&chapterName=')[0].split('&&levelName=')[1],
+ 						chapter = location.search.split('&&subChapter=')[0].split('&&chapterName=')[1],
+ 						subChapter = location.search.split('&&subChapter=')[1],
+ 						problem = location.search.split('&&subChapter=')[0].split('&&chapterName=')[0].split('&&levelName=')[0].split('problemName=')[1],
+ 						mover=location.search.split('&&subChapter=')[0].split('&&chapterName=')[0].split('&&levelName=')[0].split('problemName=')[0].split('mover=')[1];
 						
-			          $.ajax({url:"config/showBoard.php",data:{QuestionId:questionId}}).done(function(data){
+			          $.ajax({url:"config/showBoard.php",data:{level:level,chapter:chapter,subChapter:subChapter,problem:problem}}).done(function(data){
 			          	console.log(typeof data);
 			          	that.position = JSON.parse(data);
 			          	var cfg ={
@@ -17,7 +21,7 @@ $(document).ready(function(){
 						  onSnapEnd: that.onSnapEnd
 						};
 			          	that.board = new ChessBoard('board',cfg);
-			          	that.fen = that.board.fen()+" w"+" -"+" -"+" 0"+" 10";
+			          	that.fen = that.board.fen()+" "+mover+" -"+" -"+" 0"+" 10";
 			          	that.game= new Chess(that.fen);
 			          	that.updateStatus();
 					  });
@@ -41,8 +45,7 @@ $(document).ready(function(){
 				  });
 				  if(source!=target && move!==null) 
 				  {
-				  	var moveObject = {};
-					 moveObject[source]= target;
+				  	var moveObject = source + "-" + target;
 					 if(that.game.turn() === 'b'){
 					 	userMove.push(JSON.stringify(moveObject));
 					 	$(that).find('#movePanel').append('<div class="col-md-7" >'+ source+"-"+target +
@@ -96,7 +99,7 @@ $(document).ready(function(){
 				
 				  
 				};
-					
+					/*After this , handling of Buttons is done*/
 					
 	
 					
@@ -217,7 +220,7 @@ $(document).ready(function(){
 };
  	$('#submitAnswer').on('click',function(){
  		automatedMove[automatedMove.length] = "";
-	  		 $.ajax({url:"config/insertAnswer.php",data:{QuestionId:questionId,UserMove:userMove,AdminMove:automatedMove,AnswerId:answerId}})
+	  		 $.ajax({url:"config/insertAnswer.php",data:{level:level,chapter:chapter,subChapter:subChapter,problem:problem,UserMove:userMove,AdminMove:automatedMove,AnswerId:answerId,mover:mover}})
 	  		 .done(function(data){
 	  		 	answerId = answerId + 1;
 	  		 	$('#dialogBox').dialog({
@@ -227,14 +230,14 @@ $(document).ready(function(){
 						buttons: { "Ok": {  text: 'Yes', 
                                class: 'btn primary', 
                                click: function () {
-									window.location = "next.php?questionId="+questionId;
+									window.location = "next.php?answerId="+answerId+"&&problemName="+problem+"&&levelName="+level+"&&chapterName="+chapter+'&&subChapter='+subChapter;
                                 }
                                 },
                                 "Cancel": {  
                                 	text: 'No', 
                                class: 'btn primary', 
                                click: function () {
-										window.location = "";
+										window.location = "levelSelection.php?problem="+problem+"&&level="+level+"&&chapter="+chapter+"&&subChapter="+subChapter;
                                  }
 							}
                    

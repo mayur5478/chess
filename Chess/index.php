@@ -14,7 +14,5 @@
      	</div>
 			<?php include 'footer/footer.php' ;?>
 		<script src="js/question.js"></script>
-	
-	</body>
-	
+	</body>	
 </html>

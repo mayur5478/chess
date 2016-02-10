@@ -2,7 +2,16 @@
 html,body {
 				  	height: 100%;
 				}*/
-
+#selectMover{
+	position: absolute;
+    top: 32%;
+    left: 22%;
+}
+#moverOptions{
+	position: absolute;
+    top: 37%;
+    left: 22%;
+}
 		#sidePanel{
 			    position: absolute;
 				left: 50%;
@@ -43,11 +52,12 @@ html,body {
 		#footer {
 		 
 		  /* Set the fixed height of the footer here */
-		  height: 6%;
-		  background-color: #f5f5f5;
-		  top: 94%;
-		  position: absolute;
-		  width:100%;
+		    height: 60px;
+		    background-color: #f5f5f5;
+		    /* top: 94%; */
+		    position: fixed;
+		    width: 100%;
+		    bottom: 0;
 		}
 		
 		
